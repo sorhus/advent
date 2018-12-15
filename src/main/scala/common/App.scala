@@ -9,6 +9,7 @@ import cats.implicits._
 import fs2.{Pure, Sink, Stream, io, text}
 
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
+import scala.io.Source
 
 abstract class App[O: Show] extends IOApp {
 
@@ -20,7 +21,9 @@ abstract class App[O: Show] extends IOApp {
 
     val input: Stream[IO, Byte] = args.headOption match {
       case Some(file) => io.file.readAll[IO](Paths.get(file), ec, bufferSize)
-      case None => io.stdin[IO](bufferSize, ec)
+      case None =>
+        val input = s"/${getClass.getName.split("\\.").head}.txt"
+        io.readInputStream[IO](IO(getClass.getResourceAsStream(input)), bufferSize, ec)
     }
 
     input.through(process)

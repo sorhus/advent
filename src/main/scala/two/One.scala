@@ -16,7 +16,7 @@ object One extends App[Int] {
             .filter(i => i == 2 || i == 3)
             .toList
         }
-        .map(Data(_))
+        .map(Data.apply)
         .reduce(_ + _)
         .map(_.result())
   }

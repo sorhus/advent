@@ -15,10 +15,7 @@ object Two extends App[Frequency] {
         val result = frequencies.add(frequency)
         (result, result.calibratedFrequency)
       }
-      .map(_._2)
-      .collect{
-        case Some(f) => f
-      }
+      .collect{case(_, Some(f)) => f}
       .head
   }
 }
