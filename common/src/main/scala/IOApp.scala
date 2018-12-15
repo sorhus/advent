@@ -3,14 +3,14 @@ import java.util.concurrent.Executors
 
 import cats.Show
 import cats.effect.{ExitCode, IO, IOApp}
-import fs2.{Pure, Sink, Stream, io}
 import cats.implicits._
+import fs2.{Sink, Stream, io, text}
 
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
 
-abstract class App[O: Show] extends IOApp {
+abstract class IApp[O: Show] extends IOApp {
 
-  private val ec: ExecutionContextExecutorService =
+  val ec: ExecutionContextExecutorService =
     ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))
   private val bufferSize = 4096
 
@@ -28,6 +28,10 @@ abstract class App[O: Show] extends IOApp {
       .as(ExitCode.Success)
   }
 
-  def process(input: Stream[Pure, Byte]): Stream[Pure, O]
+  def toString(input: Stream[IO, Byte]): Stream[IO, String] = input.through(text.utf8Decode).through(text.lines)
+
+  def toInt(input: Stream[IO, Byte]): Stream[IO, Int] = toString(input).map(_.toInt)
+
+  def process(input: Stream[IO, Byte]): Stream[IO, O]
 
 }

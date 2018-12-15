@@ -1,16 +1,13 @@
 
 import Frequencies.Frequency
-import fs2.{Pure, Stream, text}
+import fs2.{Pure, Stream}
 import cats.implicits._
-
 
 object Two extends App[Frequency] {
 
   override def process(input: Stream[Pure, Byte]): Stream[Pure, Frequency] = {
 
-    input.through(text.utf8Decode)
-      .through(text.lines)
-      .map(_.toInt)
+    toInt(input)
       .repeat
       .mapAccumulate(Frequencies()) { (frequencies: Frequencies, frequency: Frequency) =>
         val result = frequencies.add(frequency)
