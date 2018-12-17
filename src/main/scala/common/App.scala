@@ -9,7 +9,6 @@ import cats.implicits._
 import fs2.{Pure, Sink, Stream, io, text}
 
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutorService}
-import scala.io.Source
 
 abstract class App[O: Show] extends IOApp {
 
