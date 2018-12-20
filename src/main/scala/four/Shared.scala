@@ -1,5 +1,6 @@
 package four
 
+import four.Line.Id
 import fs2.{Pure, Stream}
 
 trait Shared {
@@ -16,5 +17,9 @@ trait Shared {
     case(Nil, line @ Line(_, Left(_))) => (line :: Nil, None)
     case(list, line @ Line(_, Right(_))) => (line :: list, None)
     case(list, line @ Line(_, Left(_))) => (line :: Nil, Some(list))
+  }
+
+  def accumulate(acc: Map[Id, List[Int]], e: Shift): Map[Id, List[Int]] = {
+    acc + ((e.id, e.asleep ::: acc.getOrElse(e.id, Nil)))
   }
 }

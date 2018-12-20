@@ -1,6 +1,8 @@
 package four
 
-case class Shift(id: String, asleep: List[Int])
+import four.Line.Id
+
+case class Shift(id: Id, asleep: List[Int])
 
 object Shift {
 

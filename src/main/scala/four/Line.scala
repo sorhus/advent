@@ -1,6 +1,8 @@
 package four
 
-case class Line(date: String, data: Either[String, String])
+import four.Line.{Data, Id}
+
+case class Line(date: String, data: Either[Id, Data])
 
 object Line {
 
@@ -18,4 +20,7 @@ object Line {
   def last(): Line = {
     Line("", Left(""))
   }
+
+  type Id = String
+  type Data = String
 }

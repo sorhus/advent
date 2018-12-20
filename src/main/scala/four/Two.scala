@@ -2,6 +2,7 @@ package four
 
 import cats.kernel.Semigroup
 import common.App
+import four.Line.Id
 import fs2.{Pure, Stream}
 
 object Two extends App[Guard] with Shared {
@@ -14,9 +15,7 @@ object Two extends App[Guard] with Shared {
       .mapAccumulate(List[Line]())(accumulate)
       .collect{case(_, Some(list)) => list.reverse}
       .map(Shift.apply)
-      .fold(Map.empty[String, List[Int]]) {(guards, shift) =>
-        guards + ((shift.id, shift.asleep ::: guards.getOrElse(shift.id, Nil)))
-      }
+      .fold(Map.empty[Id, List[Int]])(accumulate)
       .flatMap(map => Stream.emits(map.toSeq))
       .map(Guard.apply)
       .reduceSemigroup
