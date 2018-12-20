@@ -2,6 +2,7 @@ package five
 
 import common.App
 import cats.implicits._
+import five.One.accumulate
 import fs2.{Pure, Stream}
 
 object Two extends App[Int] {
@@ -13,16 +14,10 @@ object Two extends App[Int] {
     chars.flatMap{c =>
       s.flatMap(s => Stream.emits(s.toSeq))
         .filter(_.toLower != c)
-        .fold(List[Char]()) {(result, s) =>
-          if(result.nonEmpty && result.head.toLower == s.toLower && result.head != s) {
-            result.tail
-          } else {
-            s :: result
-          }
-        }
+        .fold(List[Char]())(accumulate)
         .map(_.size)
     }
-    .reduce((x,y) => if(x < y) x else y)
+    .reduce(_ min _)
   }
 
 }

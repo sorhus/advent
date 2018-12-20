@@ -1,6 +1,5 @@
 package four
 
-import cats.Semigroup
 import fs2.{Pure, Stream}
 
 trait Shared {
