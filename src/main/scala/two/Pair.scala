@@ -1,5 +1,7 @@
 package two
 
+import cats.Show
+
 case class Pair(x: String, y: String) {
 
   def distance(): Int = {
@@ -7,12 +9,13 @@ case class Pair(x: String, y: String) {
       case(i,j) => i != j
     }
   }
+}
 
-  def union(): String = {
-    x.zip(y).filter{
-      case(i,j) => i == j
-    }
-      .map(_._1)
+object Pair {
+  implicit val pairShow: Show[Pair] = new Show[Pair] {
+    override def show(t: Pair): String = t.x.zip(t.y).collect{
+        case(i, j) if i == j => i
+      }
       .mkString
-  }
+    }
 }

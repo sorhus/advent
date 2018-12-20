@@ -10,7 +10,7 @@ class OneSuite extends FlatSpec with Matchers with Common {
 
   it should "compute result of 12" in {
     val input = generateInput(List("abcdef", "bababc", "abbcde", "abcccd", "aabcdd", "abcdee", "ababab"))
-    val expected = List(12)
+    val expected = List(Data(4,3))
 
     One.process(input).toList should be(expected)
   }

@@ -2,15 +2,11 @@ package one
 
 import one.Frequencies.Frequency
 
-case class Frequencies(history: Set[Frequency] = Set.empty, current: Frequency = 0, calibrated: Boolean = false) {
+case class Frequencies(history: Set[Frequency] = Set.empty, current: Frequency = 0) {
 
-  def add(value: Frequency): Frequencies = {
-    val next = current + value
-    val calibrated = history.contains(next)
-    Frequencies(history + current, next, calibrated)
-  }
+  def add(value: Frequency): Frequencies = Frequencies(history + current, current + value)
 
-  def calibratedFrequency: Option[Frequency] = if(calibrated) Some(current) else None
+  def calibratedFrequency: Option[Frequency] = Some(current).filter(history.contains)
 }
 
 object Frequencies {

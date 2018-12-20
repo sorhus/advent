@@ -1,7 +1,5 @@
 package three
 
-
-
 case class Patch(id: String, anchor: Pair, size: Pair) {
 
   def covered(pairs: List[Pair]): Boolean = {
@@ -24,5 +22,4 @@ object Patch {
         Patch(id, Pair(xAnchor.toInt, yAnchor.toInt), Pair(xSize.toInt, ySize.toInt))
     }
   }
-
 }

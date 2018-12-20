@@ -1,24 +1,22 @@
 package two
 
+import cats.Monoid
 import common.App
 import cats.implicits._
 import fs2.{Pure, Stream}
 
-object One extends App[Int] {
+object One extends App[Data] {
 
-  override def process(input: Stream[Pure, Byte]): Stream[Pure, Int] = {
+  override def process(input: Stream[Pure, Byte]): Stream[Pure, Data] = {
       toString(input)
         .map(_.sorted.toCharArray)
         .map(Stream.emits(_))
-        .map{word =>
+        .flatMap{word =>
           word.groupAdjacentBy(identity)
             .map(_._2.size)
-            .filter(i => i == 2 || i == 3)
-            .toList
+            .fold(implicitly[Monoid[Data]].empty)(Data.build)
         }
-        .map(Data.apply)
-        .reduce(_ + _)
-        .map(_.result())
+        .reduceSemigroup
   }
 }
 

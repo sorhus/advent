@@ -27,7 +27,7 @@ class OneSuite extends FlatSpec with Matchers with Common {
       "[1518-11-05 00:03] Guard #99 begins shift",
       "[1518-11-05 00:45] falls asleep",
       "[1518-11-05 00:55] wakes up"))
-    val expected = List(240)
+    val expected = List(Guard("10", 50, Some(24), Some(2)))
 
     One.process(input).toList should be(expected)
   }

@@ -27,7 +27,7 @@ class TwoSuite extends FlatSpec with Matchers with Common {
       "[1518-11-05 00:03] Guard #99 begins shift",
       "[1518-11-05 00:45] falls asleep",
       "[1518-11-05 00:55] wakes up"))
-    val expected = List(4455)
+    val expected = List(Guard("99", 30, Some(45), Some(3)))
 
     Two.process(input).toList should be(expected)
   }
